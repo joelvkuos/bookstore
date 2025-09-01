@@ -16,17 +16,32 @@
                 <th>Title</th>
                 <th>ISBN</th>
                 <th>Publication Year</th>
+                <th>Price</th>
+                <th>Action</th> <!-- Column for Delete button -->
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td th:text="${author}">Author Name</td>
-                <td th:text="${title}">Book Title</td>
-                <td th:text="${isbn}">1234567890</td>
-                <td th:text="${publicationYear}">2023</td>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.author}">Author Name</td>
+                <td th:text="${book.title}">Book Title</td>
+                <td th:text="${book.isbn}">1234567890</td>
+                <td th:text="${book.publicationYear}">2023</td>
+                <td th:text="${book.price}">19.99</td>
+                <td>
+                    <!-- Delete button next to year -->
+                    <a th:href="@{/delete/{id}(id=${book.id})}"
+                        onclick="return confirm('Are you sure you want to delete this book?');">
+                        Delete
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>
+
+    <!-- Add Book button under the table -->
+    <p>
+        <a th:href="@{/addbook}">Add Book</a>
+    </p>
 </body>
 
 </html>
