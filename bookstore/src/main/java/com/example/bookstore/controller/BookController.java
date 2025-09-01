@@ -4,16 +4,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import java.util.List;
+import org.springframework.data.repository.CrudRepository;
 import com.example.bookstore.model.Book;
+import com.example.bookstore.model.BookRepository;
 
-@RestController
+@Controller
 public class BookController {
 
-    @GetMapping(value = "/index")
-    public Book getBook(Model model) {
-        return new Book("Sivullinen", "Albert Camus", 1942, "101010-2020202", 20.00);
+    private final BookRepository repository;
+
+    // constructor injection. Can only be one constructor then.
+    public BookController(BookRepository repository) {
+        this.repository = repository;
+    }
+
+    @RequestMapping(value = { "/", "/booklist" })
+    public String bookList(Model model) {
+        model.addAttribute("books", repository.findAll());
+        return "booklist";
     }
 
 }

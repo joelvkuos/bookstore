@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Book Details</title>
+</head>
+
+<body>
+    <h1>Books</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Author</th>
+                <th>Title</th>
+                <th>ISBN</th>
+                <th>Publication Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td th:text="${author}">Author Name</td>
+                <td th:text="${title}">Book Title</td>
+                <td th:text="${isbn}">1234567890</td>
+                <td th:text="${publicationYear}">2023</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
