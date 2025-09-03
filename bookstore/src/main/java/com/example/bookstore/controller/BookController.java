@@ -19,7 +19,6 @@ public class BookController {
 
     private final BookRepository repository;
 
-    // constructor injection. Can only be one constructor then.
     public BookController(BookRepository repository) {
         this.repository = repository;
     }
@@ -47,4 +46,5 @@ public class BookController {
         repository.deleteById(id);
         return "redirect:/booklist";
     }
+
 }
