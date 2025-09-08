@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Add Book</title>
+    <title>Edit book</title>
     <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
 
 </head>
 
 <body>
-    <h1>Add a New Book</h1>
+    <h1>Edit book</h1>
 
     <form th:action="@{/addbook}" th:object="${book}" method="post">
         <p>
@@ -41,7 +41,7 @@
             </select>
         </p>
         <p>
-            <button type="submit" class="btn btn-success">Add Book</button>
+            <button type="submit" class="btn btn-primary">Edit Book</button>
         </p>
     </form>
 

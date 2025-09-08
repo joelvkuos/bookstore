@@ -13,37 +13,49 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.model.BookRepository;
+import com.example.bookstore.model.CategoryRepository;
 
 @Controller
 public class BookController {
 
-    private final BookRepository repository;
+    private final BookRepository bookRepository;
+    private final CategoryRepository categoryRepository;
 
-    public BookController(BookRepository repository) {
-        this.repository = repository;
+    public BookController(BookRepository bookRepository, CategoryRepository categoryRepository) {
+        this.bookRepository = bookRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @RequestMapping(value = { "/", "/booklist" })
     public String bookList(Model model) {
-        model.addAttribute("books", repository.findAll());
+        model.addAttribute("books", bookRepository.findAll());
         return "booklist";
     }
 
     @GetMapping("/addbook")
     public String showAddBookFrom(Model model) {
         model.addAttribute("book", new Book());
+        model.addAttribute("categories", categoryRepository.findAll());
         return "addbook";
     }
 
     @PostMapping("/addbook")
     public String addBook(@ModelAttribute Book book) {
-        repository.save(book);
+        bookRepository.save(book);
         return "redirect:/booklist";
+    }
+
+    @GetMapping("/editbook/{id}")
+    public String editBook(@PathVariable("id") Long bookId, Model model) {
+        Book book = bookRepository.findById(bookId).orElse(null);
+        model.addAttribute("book", book);
+        model.addAttribute("categories", categoryRepository.findAll());
+        return "editbook";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteBook(@PathVariable("id") Long id) {
-        repository.deleteById(id);
+        bookRepository.deleteById(id);
         return "redirect:/booklist";
     }
 
