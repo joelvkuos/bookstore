@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import com.example.bookstore.model.Book;
 import com.example.bookstore.model.BookRepository;
 import com.example.bookstore.model.CategoryRepository;
@@ -53,6 +55,7 @@ public class BookController {
         return "editbook";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/delete/{id}")
     public String deleteBook(@PathVariable("id") Long id) {
         bookRepository.deleteById(id);
