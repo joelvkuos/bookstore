@@ -5,15 +5,18 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.bookstore.model.User;
 import com.example.bookstore.model.UserRepository;
 
 @SpringBootTest
+@Transactional
 public class UserRepositoryTests {
 
     @Autowired
@@ -24,9 +27,9 @@ public class UserRepositoryTests {
         User jolle = new User(null, "hashedpass", "jolle@email.com", "USER", "Jolle");
         repository.save(jolle);
 
-        List<User> users = repository.findByUsername("Jolle");
+        Optional<User> users = repository.findByUsername("Jolle");
 
-        assertEquals("Jolle", users.get(0).getUsername());
+        assertEquals("Jolle", users.get().getUsername());
     }
 
     @Test
@@ -45,7 +48,7 @@ public class UserRepositoryTests {
 
         repository.delete(saved);
 
-        List<User> users = repository.findByUsername("Jolle");
+        Optional<User> users = repository.findByUsername("Jolle");
         assertTrue(users.isEmpty());
     }
 

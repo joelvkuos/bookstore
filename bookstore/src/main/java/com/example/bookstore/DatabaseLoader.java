@@ -14,7 +14,7 @@ public class DatabaseLoader {
     @Bean
     CommandLineRunner loadUsers(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
-            if (userRepository.findByUsername("admin") == null) {
+            if (userRepository.findByUsername("admin").isEmpty()) {
                 User admin = new User();
                 admin.setUsername("admin");
                 admin.setPasswordHash(passwordEncoder.encode("admin"));
@@ -23,7 +23,7 @@ public class DatabaseLoader {
                 userRepository.save(admin);
             }
 
-            if (userRepository.findByUsername("user") == null) {
+            if (userRepository.findByUsername("user").isEmpty()) {
                 User user = new User();
                 user.setUsername("user");
                 user.setPasswordHash(passwordEncoder.encode("user"));
