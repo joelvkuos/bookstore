@@ -43,6 +43,7 @@
         <p>
             <button type="submit" class="btn btn-primary">Edit Book</button>
         </p>
+        <input type="hidden" th:field="*{id}" />
     </form>
 
     <p><a th:href="@{/booklist}">Back to book list</a></p>

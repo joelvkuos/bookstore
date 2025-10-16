@@ -1,5 +1,8 @@
 package com.example.bookstore.controller;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,17 +15,24 @@ import com.example.bookstore.model.UserRepository;
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 
-	UserRepository repository;
+	private final UserRepository repository;
 
-	public UserDetailServiceImpl(UserRepository UserRepository) {
-		this.repository = UserRepository;
+	@Autowired
+	public UserDetailServiceImpl(UserRepository repository) {
+		this.repository = repository;
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User curruser = repository.findByUsername(username);
-		UserDetails user = new org.springframework.security.core.userdetails.User(username, curruser.getPasswordHash(),
+		Optional<User> curruserOpt = repository.findByUsername(username);
+		if (curruserOpt.isEmpty()) {
+			throw new UsernameNotFoundException("User not found with username: " + username);
+		}
+		User curruser = curruserOpt.get();
+
+		return new org.springframework.security.core.userdetails.User(
+				curruser.getUsername(),
+				curruser.getPasswordHash(),
 				AuthorityUtils.createAuthorityList(curruser.getRole()));
-		return user;
 	}
 }
